@@ -26,7 +26,8 @@ fn get_branch_name(repo: &Repository) -> String {
         if let Ok(head) = repo.head()
             && let Some(oid) = head.target()
         {
-            return oid.to_string()[..7].to_string();
+            let hash = oid.to_string();
+            return hash[..hash.len().min(7)].to_string();
         }
         return "HEAD".to_string();
     }
@@ -209,10 +210,16 @@ mod tests {
         create_initial_commit(&repo, dir.path());
 
         let result = render(dir.path().to_str().unwrap()).unwrap();
-        // Status indicators should not appear in a clean repo
-        assert!(!result.contains("+"));
-        assert!(!result.contains("!"));
-        assert!(!result.contains("?"));
+        // Status brackets and indicators should not appear in a clean repo
+        let (staged, unstaged, untracked) = get_status_counts(&repo);
+        assert_eq!(staged, 0);
+        assert_eq!(unstaged, 0);
+        assert_eq!(untracked, 0);
+        assert!(build_status_parts(staged, unstaged, untracked).is_empty());
+        // Verify the rendered output has no status section
+        assert!(!result.contains("[+"));
+        assert!(!result.contains("[!"));
+        assert!(!result.contains("[?"));
     }
 
     #[test]
