@@ -1,3 +1,5 @@
+#![allow(clippy::not_unsafe_ptr_arg_deref)]
+
 use std::time::{Duration, Instant};
 
 use kish_plugin_sdk::{Capability, Plugin, PluginApi, export};
@@ -53,10 +55,10 @@ impl Plugin for RichPromptPlugin {
             line1_parts.push(git_segment);
         }
 
-        if let Some(duration) = self.last_duration {
-            if let Some(duration_segment) = segments::duration::render(duration) {
-                line1_parts.push(duration_segment);
-            }
+        if let Some(duration) = self.last_duration
+            && let Some(duration_segment) = segments::duration::render(duration)
+        {
+            line1_parts.push(duration_segment);
         }
 
         let line1 = line1_parts.join(" ");

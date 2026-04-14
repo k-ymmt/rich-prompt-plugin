@@ -23,10 +23,10 @@ pub fn render(cwd: &str) -> Option<String> {
 
 fn get_branch_name(repo: &Repository) -> String {
     if repo.head_detached().unwrap_or(false) {
-        if let Ok(head) = repo.head() {
-            if let Some(oid) = head.target() {
-                return oid.to_string()[..7].to_string();
-            }
+        if let Ok(head) = repo.head()
+            && let Some(oid) = head.target()
+        {
+            return oid.to_string()[..7].to_string();
         }
         return "HEAD".to_string();
     }
