@@ -25,7 +25,7 @@ jobs:
             runner: macos-latest
             ext: dylib
           - target: x86_64-apple-darwin
-            runner: macos-13
+            runner: macos-latest
             ext: dylib
           - target: x86_64-unknown-linux-gnu
             runner: ubuntu-latest
@@ -34,9 +34,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo build --release
+        with:
+          targets: ${{ matrix.target }}
+      - run: cargo build --release --target ${{ matrix.target }}
       - name: Rename artifact
-        run: mv target/release/librich_prompt_plugin.${{ matrix.ext }} librich_prompt_plugin-${{ matrix.target }}.${{ matrix.ext }}
+        run: mv target/${{ matrix.target }}/release/librich_prompt_plugin.${{ matrix.ext }} librich_prompt_plugin-${{ matrix.target }}.${{ matrix.ext }}
       - uses: actions/upload-artifact@v4
         with:
           name: librich_prompt_plugin-${{ matrix.target }}
