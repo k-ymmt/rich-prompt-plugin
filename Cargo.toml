@@ -1,0 +1,16 @@
+[package]
+name = "rich-prompt-plugin"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+kish-plugin-sdk = { git = "https://github.com/k-ymmt/kish" }
+git2 = "0.20"
+whoami = "1"
+gethostname = "1"
+
+[dev-dependencies]
+tempfile = "3"
