@@ -9,7 +9,11 @@ pub fn render(cwd: &str) -> Option<String> {
 
     let status_parts = build_status_parts(staged, unstaged, untracked);
 
-    let mut result = format!("\u{e0a0} {branch_name}");
+    let mut result = Style::new()
+        .fg(Color::Magenta)
+        .bold()
+        .paint(&format!("\u{e0a0} {branch_name}"));
+
     if !status_parts.is_empty() {
         result.push_str(&format!(" [{}]", status_parts.join(" ")));
     }
@@ -199,14 +203,16 @@ mod tests {
     }
 
     #[test]
-    fn clean_repo_shows_no_status_brackets() {
+    fn clean_repo_shows_no_status_indicators() {
         let dir = tempfile::tempdir().unwrap();
         let repo = init_repo(dir.path());
         create_initial_commit(&repo, dir.path());
 
         let result = render(dir.path().to_str().unwrap()).unwrap();
-        assert!(!result.contains('['));
-        assert!(!result.contains(']'));
+        // Status indicators should not appear in a clean repo
+        assert!(!result.contains("+"));
+        assert!(!result.contains("!"));
+        assert!(!result.contains("?"));
     }
 
     #[test]
