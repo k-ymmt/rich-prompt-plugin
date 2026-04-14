@@ -90,6 +90,10 @@ struct RichPromptPlugin {
 - `hooks:post_exec` — exit code and duration tracking
 - `hooks:pre_prompt` — prompt rendering
 
+### Commands
+
+This plugin exposes no custom commands. `commands()` returns `&[]` and `exec()` is a no-op (returns 0). All functionality is delivered through hooks.
+
 ### Flow
 
 1. `hook_pre_exec`: `self.last_cmd_start = Some(Instant::now())`
