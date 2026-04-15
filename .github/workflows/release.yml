@@ -24,9 +24,13 @@ jobs:
           - target: aarch64-apple-darwin
             runner: macos-latest
             ext: dylib
+            os: macos
+            arch: aarch64
           - target: x86_64-unknown-linux-gnu
             runner: ubuntu-latest
             ext: so
+            os: linux
+            arch: x86_64
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4
@@ -35,11 +39,11 @@ jobs:
           targets: ${{ matrix.target }}
       - run: cargo build --release --target ${{ matrix.target }}
       - name: Rename artifact
-        run: mv target/${{ matrix.target }}/release/librich_prompt_plugin.${{ matrix.ext }} librich_prompt_plugin-${{ matrix.target }}.${{ matrix.ext }}
+        run: mv target/${{ matrix.target }}/release/librich_prompt_plugin.${{ matrix.ext }} librich_prompt_plugin-${{ matrix.os }}-${{ matrix.arch }}.${{ matrix.ext }}
       - uses: actions/upload-artifact@v4
         with:
-          name: librich_prompt_plugin-${{ matrix.target }}
-          path: librich_prompt_plugin-${{ matrix.target }}.${{ matrix.ext }}
+          name: librich_prompt_plugin-${{ matrix.os }}-${{ matrix.arch }}
+          path: librich_prompt_plugin-${{ matrix.os }}-${{ matrix.arch }}.${{ matrix.ext }}
 
   release:
     needs: build
