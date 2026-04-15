@@ -80,6 +80,7 @@ This plugin requires the following capabilities:
 | `io` | Print prompt to stdout |
 | `filesystem` | Read current working directory |
 | `variables:read` | Read `HOME` environment variable |
+| `variables:write` | Set `PS1` for prompt display |
 | `hooks:pre_exec` | Track command start time |
 | `hooks:post_exec` | Track exit code and duration |
 | `hooks:pre_prompt` | Render the prompt |

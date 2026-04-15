@@ -23,6 +23,7 @@ impl Plugin for RichPromptPlugin {
             Capability::Io,
             Capability::Filesystem,
             Capability::VariablesRead,
+            Capability::VariablesWrite,
             Capability::HookPreExec,
             Capability::HookPostExec,
             Capability::HookPrePrompt,
@@ -64,7 +65,8 @@ impl Plugin for RichPromptPlugin {
         let line1 = line1_parts.join(" ");
         let line2 = segments::character::render(self.last_exit_code);
 
-        api.print(&format!("{line1}\n{line2} "));
+        api.print(&format!("{line1}\n"));
+        let _ = api.set_var("PS1", &format!("{line2} "));
     }
 }
 
