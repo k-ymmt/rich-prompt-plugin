@@ -311,19 +311,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "kish-plugin-api"
-version = "0.1.0"
-source = "git+https://github.com/k-ymmt/kish#168db3e69a98befc652580b65aa641819065f363"
-
-[[package]]
-name = "kish-plugin-sdk"
-version = "0.1.0"
-source = "git+https://github.com/k-ymmt/kish#168db3e69a98befc652580b65aa641819065f363"
-dependencies = [
- "kish-plugin-api",
-]
-
-[[package]]
 name = "leb128fmt"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -513,13 +500,13 @@ dependencies = [
 
 [[package]]
 name = "rich-prompt-plugin"
-version = "0.1.0"
+version = "0.1.2"
 dependencies = [
  "gethostname",
  "git2",
- "kish-plugin-sdk",
  "tempfile",
  "whoami",
+ "yosh-plugin-sdk",
 ]
 
 [[package]]
@@ -942,6 +929,19 @@ dependencies = [
  "quote",
  "syn",
  "synstructure",
+]
+
+[[package]]
+name = "yosh-plugin-api"
+version = "0.1.0"
+source = "git+https://github.com/k-ymmt/yosh#a927f67b0221ee4830e55e98d27119055622c852"
+
+[[package]]
+name = "yosh-plugin-sdk"
+version = "0.1.0"
+source = "git+https://github.com/k-ymmt/yosh#a927f67b0221ee4830e55e98d27119055622c852"
+dependencies = [
+ "yosh-plugin-api",
 ]
 
 [[package]]

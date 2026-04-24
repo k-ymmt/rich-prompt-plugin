@@ -2,7 +2,7 @@
 
 ## Overview
 
-A kish shell plugin that displays a rich, starship-like prompt using the `hook_pre_prompt` hook. The plugin shows contextual information about the current environment in a styled two-line prompt.
+A yosh shell plugin that displays a rich, starship-like prompt using the `hook_pre_prompt` hook. The plugin shows contextual information about the current environment in a styled two-line prompt.
 
 ## Prompt Layout
 
@@ -125,7 +125,7 @@ src/
 crate-type = ["cdylib"]
 
 [dependencies]
-kish-plugin-sdk = { git = "https://github.com/k-ymmt/kish" }
+yosh-plugin-sdk = { git = "https://github.com/k-ymmt/yosh" }
 git2 = "0.20"
 whoami = "1"
 gethostname = "1"

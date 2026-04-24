@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use kish_plugin_sdk::style::{Color, Style};
+use yosh_plugin_sdk::style::{Color, Style};
 
 const THRESHOLD_SECS: u64 = 2;
 

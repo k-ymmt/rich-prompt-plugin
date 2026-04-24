@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a kish shell plugin that displays a starship-like rich two-line prompt with username/host, directory, git status, and command duration segments.
+**Goal:** Build a yosh shell plugin that displays a starship-like rich two-line prompt with username/host, directory, git status, and command duration segments.
 
-**Architecture:** Modular segment-based design. Each segment is a standalone module with a `render` function that returns a styled string. The `RichPromptPlugin` struct implements the kish `Plugin` trait, using `hook_pre_exec`/`hook_post_exec` for timing and exit code tracking, and `hook_pre_prompt` to assemble and print the prompt.
+**Architecture:** Modular segment-based design. Each segment is a standalone module with a `render` function that returns a styled string. The `RichPromptPlugin` struct implements the yosh `Plugin` trait, using `hook_pre_exec`/`hook_post_exec` for timing and exit code tracking, and `hook_pre_prompt` to assemble and print the prompt.
 
-**Tech Stack:** Rust (edition 2024), kish-plugin-sdk (git dep from k-ymmt/kish), git2, whoami, gethostname
+**Tech Stack:** Rust (edition 2024), yosh-plugin-sdk (git dep from k-ymmt/yosh), git2, whoami, gethostname
 
 ---
 
@@ -53,7 +53,7 @@ edition = "2024"
 crate-type = ["cdylib"]
 
 [dependencies]
-kish-plugin-sdk = { git = "https://github.com/k-ymmt/kish" }
+yosh-plugin-sdk = { git = "https://github.com/k-ymmt/yosh" }
 git2 = "0.20"
 whoami = "1"
 gethostname = "1"
@@ -77,7 +77,7 @@ pub mod username;
 Create `src/segments/character.rs`:
 
 ```rust
-use kish_plugin_sdk::style::{Color, Style};
+use yosh_plugin_sdk::style::{Color, Style};
 
 pub fn render(exit_code: i32) -> String {
     todo!()
@@ -89,7 +89,7 @@ Create `src/segments/duration.rs`:
 ```rust
 use std::time::Duration;
 
-use kish_plugin_sdk::style::{Color, Style};
+use yosh_plugin_sdk::style::{Color, Style};
 
 pub fn render(duration: Duration) -> Option<String> {
     todo!()
@@ -99,7 +99,7 @@ pub fn render(duration: Duration) -> Option<String> {
 Create `src/segments/directory.rs`:
 
 ```rust
-use kish_plugin_sdk::style::{Color, Style};
+use yosh_plugin_sdk::style::{Color, Style};
 
 pub fn render(cwd: &str, home: Option<&str>) -> String {
     todo!()
@@ -109,7 +109,7 @@ pub fn render(cwd: &str, home: Option<&str>) -> String {
 Create `src/segments/username.rs`:
 
 ```rust
-use kish_plugin_sdk::style::{Color, Style};
+use yosh_plugin_sdk::style::{Color, Style};
 
 pub fn render() -> String {
     todo!()
@@ -119,7 +119,7 @@ pub fn render() -> String {
 Create `src/segments/git.rs`:
 
 ```rust
-use kish_plugin_sdk::style::{Color, Style};
+use yosh_plugin_sdk::style::{Color, Style};
 
 pub fn render(cwd: &str) -> Option<String> {
     todo!()
@@ -131,7 +131,7 @@ Create `src/lib.rs`:
 ```rust
 use std::time::{Duration, Instant};
 
-use kish_plugin_sdk::{Capability, Plugin, PluginApi, export};
+use yosh_plugin_sdk::{Capability, Plugin, PluginApi, export};
 
 mod segments;
 
@@ -224,7 +224,7 @@ git commit -m "feat: scaffold project with module structure and Plugin trait imp
 Replace `src/segments/character.rs` with:
 
 ```rust
-use kish_plugin_sdk::style::{Color, Style};
+use yosh_plugin_sdk::style::{Color, Style};
 
 pub fn render(exit_code: i32) -> String {
     todo!()
@@ -304,7 +304,7 @@ Replace `src/segments/duration.rs` with:
 ```rust
 use std::time::Duration;
 
-use kish_plugin_sdk::style::{Color, Style};
+use yosh_plugin_sdk::style::{Color, Style};
 
 pub fn render(duration: Duration) -> Option<String> {
     todo!()
@@ -429,7 +429,7 @@ git commit -m "feat: implement duration segment with human-readable time formatt
 Replace `src/segments/directory.rs` with:
 
 ```rust
-use kish_plugin_sdk::style::{Color, Style};
+use yosh_plugin_sdk::style::{Color, Style};
 
 pub fn render(cwd: &str, home: Option<&str>) -> String {
     todo!()
@@ -530,7 +530,7 @@ git commit -m "feat: implement directory segment with home path substitution"
 Replace `src/segments/username.rs` with:
 
 ```rust
-use kish_plugin_sdk::style::{Color, Style};
+use yosh_plugin_sdk::style::{Color, Style};
 
 pub fn render() -> String {
     let username = whoami::username();
@@ -616,7 +616,7 @@ Replace `src/segments/git.rs` with:
 
 ```rust
 use git2::{Repository, StatusOptions};
-use kish_plugin_sdk::style::{Color, Style};
+use yosh_plugin_sdk::style::{Color, Style};
 
 pub fn render(cwd: &str) -> Option<String> {
     let repo = Repository::discover(cwd).ok()?;

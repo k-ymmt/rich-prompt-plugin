@@ -1,4 +1,4 @@
-use kish_plugin_sdk::style::{Color, Style};
+use yosh_plugin_sdk::style::{Color, Style};
 
 pub fn render(exit_code: i32) -> String {
     let color = if exit_code == 0 {

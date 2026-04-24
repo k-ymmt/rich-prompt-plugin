@@ -1,6 +1,6 @@
 # rich-prompt-plugin
 
-A [kish](https://github.com/k-ymmt/kish) shell plugin that displays a rich, [starship](https://starship.rs)-like prompt.
+A [yosh](https://github.com/k-ymmt/yosh) shell plugin that displays a rich, [starship](https://starship.rs)-like prompt.
 
 ```
 kazuki@mac ~/Projects/rust  main [+2 !1 ?3] took 3s
@@ -28,20 +28,20 @@ kazuki@mac ~/Projects/rust  main [+2 !1 ?3] took 3s
 ### From GitHub
 
 ```sh
-kish plugin install https://github.com/k-ymmt/rich-prompt-plugin
-kish plugin sync
+yosh plugin install https://github.com/k-ymmt/rich-prompt-plugin
+yosh plugin sync
 ```
 
 ### From GitHub (pinned version)
 
 ```sh
-kish plugin install https://github.com/k-ymmt/rich-prompt-plugin@0.1.0
-kish plugin sync
+yosh plugin install https://github.com/k-ymmt/rich-prompt-plugin@0.1.0
+yosh plugin sync
 ```
 
 ### Manual configuration
 
-Add to `~/.config/kish/plugins.toml`:
+Add to `~/.config/yosh/plugins.toml`:
 
 ```toml
 [[plugin]]
@@ -54,7 +54,7 @@ enabled = true
 Then run:
 
 ```sh
-kish plugin sync
+yosh plugin sync
 ```
 
 ### Build from source
@@ -68,7 +68,7 @@ cargo build --release
 Install the built library:
 
 ```sh
-kish plugin install target/release/librich_prompt_plugin.dylib
+yosh plugin install target/release/librich_prompt_plugin.dylib
 ```
 
 ## Required Capabilities
@@ -87,7 +87,7 @@ This plugin requires the following capabilities:
 
 ## Requirements
 
-- [kish](https://github.com/k-ymmt/kish) shell
+- [yosh](https://github.com/k-ymmt/yosh) shell
 - A terminal with ANSI color support
 - [Nerd Font](https://www.nerdfonts.com/) (for the git branch icon ``)
 

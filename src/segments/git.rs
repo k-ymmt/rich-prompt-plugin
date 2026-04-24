@@ -1,5 +1,5 @@
 use git2::{Repository, StatusOptions};
-use kish_plugin_sdk::style::{Color, Style};
+use yosh_plugin_sdk::style::{Color, Style};
 
 pub fn render(cwd: &str) -> Option<String> {
     let repo = Repository::discover(cwd).ok()?;

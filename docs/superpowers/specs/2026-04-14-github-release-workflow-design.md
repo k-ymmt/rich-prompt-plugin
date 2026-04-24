@@ -50,4 +50,4 @@ Files uploaded to the release:
 ## Dependencies
 
 - `git2` crate requires `libgit2` system library — available by default on GitHub Actions runners
-- `kish-plugin-sdk` fetched from GitHub via `git` dependency — no special auth needed (public repo)
+- `yosh-plugin-sdk` fetched from GitHub via `git` dependency — no special auth needed (public repo)
