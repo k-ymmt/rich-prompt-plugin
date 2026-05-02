@@ -7,7 +7,7 @@ edition = "2024"
 crate-type = ["cdylib"]
 
 [dependencies]
-yosh-plugin-sdk = "0.2"
+yosh-plugin-sdk = { git = "https://github.com/k-ymmt/yosh", tag = "v0.2.1" }
 
 [package.metadata.component]
 package = "k-ymmt:rich-prompt-plugin"
