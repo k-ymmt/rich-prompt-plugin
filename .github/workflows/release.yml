@@ -18,32 +18,25 @@ jobs:
 
   build:
     needs: test
-    strategy:
-      matrix:
-        include:
-          - target: aarch64-apple-darwin
-            runner: macos-latest
-            ext: dylib
-            os: macos
-            arch: aarch64
-          - target: x86_64-unknown-linux-gnu
-            runner: ubuntu-latest
-            ext: so
-            os: linux
-            arch: x86_64
-    runs-on: ${{ matrix.runner }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.target }}
-      - run: cargo build --release --target ${{ matrix.target }}
+          targets: wasm32-wasip2
+      - name: Install cargo-component
+        run: cargo install cargo-component --locked --version 0.18.0
+      - name: Install wkg
+        run: cargo install wkg --locked
+      - name: Configure wkg registry
+        run: wkg config --default-registry wa.dev
+      - run: cargo component build --target wasm32-wasip2 --release
       - name: Rename artifact
-        run: mv target/${{ matrix.target }}/release/librich_prompt_plugin.${{ matrix.ext }} librich_prompt_plugin-${{ matrix.os }}-${{ matrix.arch }}.${{ matrix.ext }}
+        run: cp target/wasm32-wasip2/release/rich_prompt_plugin.wasm rich-prompt-plugin.wasm
       - uses: actions/upload-artifact@v4
         with:
-          name: librich_prompt_plugin-${{ matrix.os }}-${{ matrix.arch }}
-          path: librich_prompt_plugin-${{ matrix.os }}-${{ matrix.arch }}.${{ matrix.ext }}
+          name: rich-prompt-plugin
+          path: rich-prompt-plugin.wasm
 
   release:
     needs: build
@@ -56,4 +49,4 @@ jobs:
       - name: Create Release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create ${{ github.ref_name }} --generate-notes librich_prompt_plugin-*
+        run: gh release create ${{ github.ref_name }} --generate-notes rich-prompt-plugin.wasm
