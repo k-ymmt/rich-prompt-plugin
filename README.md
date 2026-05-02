@@ -35,7 +35,7 @@ yosh plugin sync
 ### From GitHub (pinned version)
 
 ```sh
-yosh plugin install https://github.com/k-ymmt/rich-prompt-plugin@0.1.0
+yosh plugin install https://github.com/k-ymmt/rich-prompt-plugin@0.2.0
 yosh plugin sync
 ```
 
@@ -47,8 +47,13 @@ Add to `~/.config/yosh/plugins.toml`:
 [[plugin]]
 name = "rich-prompt-plugin"
 source = "github:k-ymmt/rich-prompt-plugin"
-version = "0.1.0"
+version = "0.2.0"
 enabled = true
+allowed_commands = [
+    "whoami",
+    "hostname",
+    "git status:*",
+]
 ```
 
 Then run:
@@ -57,39 +62,54 @@ Then run:
 yosh plugin sync
 ```
 
+The `allowed_commands` list is required for the `commands:exec` capability — without it, user/host caching falls back to the literals `"user"` / `"host"` and the git status counts (`+N !N ?N`) are omitted (the branch name still renders).
+
 ### Build from source
+
+This plugin is a WebAssembly Component (`.wasm`), built with `cargo-component`:
 
 ```sh
 git clone https://github.com/k-ymmt/rich-prompt-plugin.git
 cd rich-prompt-plugin
-cargo build --release
+rustup target add wasm32-wasip2
+cargo install cargo-component --locked --version 0.18.0
+cargo install wkg --locked
+wkg config --default-registry wa.dev
+cargo component build --target wasm32-wasip2 --release
 ```
 
-Install the built library:
+Install the built component:
 
 ```sh
-yosh plugin install target/release/librich_prompt_plugin.dylib
+yosh plugin install target/wasm32-wasip2/release/rich_prompt_plugin.wasm
+yosh plugin sync
 ```
 
 ## Required Capabilities
 
-This plugin requires the following capabilities:
-
 | Capability | Purpose |
 |------------|---------|
-| `io` | Print prompt to stdout |
-| `filesystem` | Read current working directory |
-| `variables:read` | Read `HOME` environment variable |
-| `variables:write` | Set `PS1` for prompt display |
+| `io` | Print the first prompt line to stdout |
+| `filesystem` | Read the current working directory |
+| `variables:read` | Read `HOME` |
+| `variables:write` | Set `PS1` |
+| `files:read` | Read `<repo>/.git/HEAD` to detect repo and branch |
+| `commands:exec` | Run `whoami` / `hostname` (once at load) and `git status` |
 | `hooks:pre_exec` | Track command start time |
 | `hooks:post_exec` | Track exit code and duration |
 | `hooks:pre_prompt` | Render the prompt |
 
+## Limitations
+
+- **Linked worktrees not supported.** Repositories where `.git` is a file containing `gitdir: <path>` (created via `git worktree add`) are not detected in this version. Plain `.git/` directories work as expected. Support may be added in a future release.
+- **Graceful degradation when commands are unavailable.** If `git` is not on `PATH` or `commands:exec` is denied / restricted by `allowed_commands`, status counts are omitted and the branch name alone is rendered. If `whoami` / `hostname` are unavailable at load time, the prompt shows the literal strings `"user"` / `"host"`.
+
 ## Requirements
 
-- [yosh](https://github.com/k-ymmt/yosh) shell
+- [yosh](https://github.com/k-ymmt/yosh) 0.2.x or later
 - A terminal with ANSI color support
 - [Nerd Font](https://www.nerdfonts.com/) (for the git branch icon ``)
+- `git` on `PATH` (for status counts)
 
 ## License
 
