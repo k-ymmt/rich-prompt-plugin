@@ -1,18 +1,13 @@
 use yosh_plugin_sdk::style::{Color, Style};
 
-pub fn render() -> String {
-    let username = whoami::username();
-    let hostname = gethostname::gethostname();
-    let hostname = hostname.to_string_lossy();
-    let hostname = truncate_hostname(&hostname);
-
+pub fn render(user: &str, host: &str) -> String {
     Style::new()
         .fg(Color::Cyan)
         .bold()
-        .paint(&format!("{username}@{hostname}"))
+        .paint(&format!("{user}@{host}"))
 }
 
-fn truncate_hostname(hostname: &str) -> &str {
+pub(crate) fn truncate_hostname(hostname: &str) -> &str {
     hostname.split('.').next().unwrap_or(hostname)
 }
 
@@ -36,9 +31,20 @@ mod tests {
     }
 
     #[test]
-    fn render_returns_styled_string() {
-        let result = render();
-        // The result should contain an @ sign and ANSI escape codes
-        assert!(result.contains("@"));
+    fn truncate_hostname_empty() {
+        assert_eq!(truncate_hostname(""), "");
+    }
+
+    #[test]
+    fn render_basic() {
+        let result = render("alice", "mac");
+        let expected = Style::new().fg(Color::Cyan).bold().paint("alice@mac");
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn render_includes_at_sign() {
+        let result = render("alice", "mac");
+        assert!(result.contains("alice@mac"));
     }
 }
