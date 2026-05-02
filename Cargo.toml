@@ -1,16 +1,22 @@
 [package]
 name = "rich-prompt-plugin"
-version = "0.1.2"
+version = "0.2.0"
 edition = "2024"
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-yosh-plugin-sdk = { git = "https://github.com/k-ymmt/yosh" }
-git2 = "0.20"
-whoami = "1"
-gethostname = "1"
+yosh-plugin-sdk = "0.2"
 
-[dev-dependencies]
-tempfile = "3"
+[package.metadata.component]
+package = "k-ymmt:rich-prompt-plugin"
+
+[package.metadata.component.target.dependencies."yosh:plugin"]
+version = "0.2"
+
+[profile.release]
+opt-level = "s"
+lto = true
+strip = true
+panic = "abort"
