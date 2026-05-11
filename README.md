@@ -35,7 +35,7 @@ yosh plugin sync
 ### From GitHub (pinned version)
 
 ```sh
-yosh plugin install https://github.com/k-ymmt/rich-prompt-plugin@0.2.0
+yosh plugin install https://github.com/k-ymmt/rich-prompt-plugin@0.2.1
 yosh plugin sync
 ```
 
@@ -47,7 +47,7 @@ Add to `~/.config/yosh/plugins.toml`:
 [[plugin]]
 name = "rich-prompt-plugin"
 source = "github:k-ymmt/rich-prompt-plugin"
-version = "0.2.0"
+version = "0.2.1"
 enabled = true
 allowed_commands = [
     "whoami",
