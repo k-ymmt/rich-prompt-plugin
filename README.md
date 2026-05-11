@@ -35,7 +35,7 @@ yosh plugin sync
 ### From GitHub (pinned version)
 
 ```sh
-yosh plugin install https://github.com/k-ymmt/rich-prompt-plugin@0.2.1
+yosh plugin install https://github.com/k-ymmt/rich-prompt-plugin@0.2.2
 yosh plugin sync
 ```
 
@@ -47,7 +47,7 @@ Add to `~/.config/yosh/plugins.toml`:
 [[plugin]]
 name = "rich-prompt-plugin"
 source = "github:k-ymmt/rich-prompt-plugin"
-version = "0.2.1"
+version = "0.2.2"
 enabled = true
 allowed_commands = [
     "whoami",
@@ -73,8 +73,6 @@ git clone https://github.com/k-ymmt/rich-prompt-plugin.git
 cd rich-prompt-plugin
 rustup target add wasm32-wasip2
 cargo install cargo-component --locked --version 0.18.0
-cargo install wkg --locked
-wkg config --default-registry wa.dev
 cargo component build --target wasm32-wasip2 --release
 ```
 

@@ -26,19 +26,6 @@ jobs:
           targets: wasm32-wasip2
       - name: Install cargo-component
         run: cargo install cargo-component --locked --version 0.18.0
-      - name: Install wkg
-        run: cargo install wkg --locked
-      - name: Configure wkg registry
-        run: wkg config --default-registry wa.dev
-      - name: Configure warg client
-        run: |
-          mkdir -p ~/.config/warg
-          cat > ~/.config/warg/config.json <<'EOF'
-          {
-            "homeUrl": "https://warg.wa.dev/",
-            "keyringAuth": true
-          }
-          EOF
       - run: cargo component build --target wasm32-wasip2 --release
       - name: Rename artifact
         run: cp target/wasm32-wasip2/release/rich_prompt_plugin.wasm rich-prompt-plugin.wasm
