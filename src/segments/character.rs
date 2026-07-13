@@ -7,7 +7,7 @@ pub fn render(exit_code: i32) -> String {
         Color::Red
     };
 
-    Style::new().fg(color).bold().paint(">")
+    Style::new().fg(color).bold().paint("❯")
 }
 
 #[cfg(test)]
@@ -17,21 +17,21 @@ mod tests {
     #[test]
     fn success_exit_code_renders_green() {
         let result = render(0);
-        let expected = Style::new().fg(Color::Green).bold().paint(">");
+        let expected = Style::new().fg(Color::Green).bold().paint("❯");
         assert_eq!(result, expected);
     }
 
     #[test]
     fn failure_exit_code_renders_red() {
         let result = render(1);
-        let expected = Style::new().fg(Color::Red).bold().paint(">");
+        let expected = Style::new().fg(Color::Red).bold().paint("❯");
         assert_eq!(result, expected);
     }
 
     #[test]
     fn negative_exit_code_renders_red() {
         let result = render(-1);
-        let expected = Style::new().fg(Color::Red).bold().paint(">");
+        let expected = Style::new().fg(Color::Red).bold().paint("❯");
         assert_eq!(result, expected);
     }
 }
