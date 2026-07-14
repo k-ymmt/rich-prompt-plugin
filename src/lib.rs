@@ -13,6 +13,7 @@ struct RichPromptPlugin {
     last_duration: Option<Duration>,
     user: String,
     host: String,
+    prompted_once: bool,
 }
 
 impl Plugin for RichPromptPlugin {
@@ -86,7 +87,11 @@ impl Plugin for RichPromptPlugin {
         let line1 = parts.join(" ");
         let line2 = segments::character::render(self.last_exit_code);
 
-        let _ = print(&format!("{line1}\n"));
+        // Blank line between commands (skipped on the very first prompt)
+        let leading = if self.prompted_once { "\n" } else { "" };
+        self.prompted_once = true;
+
+        let _ = print(&format!("{leading}{line1}\n"));
         let _ = set_var("PS1", &format!("{line2} "));
     }
 }
